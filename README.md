@@ -198,23 +198,23 @@ stateDiagram-v2
 ```mermaid
 flowchart LR
     subgraph Projects
-        CP[POST /projects]
-        GP[GET /projects]
-        GSP[GET /projects/{id}]
+        CP["POST /projects"]
+        GP["GET /projects"]
+        GSP["GET /projects/{id}"]
     end
 
     subgraph Documents
-        UD[POST /upload]
-        GD[GET /documents]
+        UD["POST /upload"]
+        GD["GET /documents"]
     end
 
     subgraph Analysis
-        GA[GET /analysis]
+        GA["GET /analysis"]
     end
 
     subgraph Chat
-        SM[POST /chat]
-        GH[GET /history]
+        SM["POST /chat"]
+        GH["GET /history"]
     end
 ```
 
