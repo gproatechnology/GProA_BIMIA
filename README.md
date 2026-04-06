@@ -110,7 +110,7 @@ sequenceDiagram
 ## 🗂️ Estructura del Proyecto
 
 ```
-Integracion_BIMIA/
+GProA_BIMIA/
 ├── backend/
 │   ├── server.py          # API FastAPI completa
 │   ├── requirements.txt   # Dependencias Python
