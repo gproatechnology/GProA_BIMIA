@@ -109,8 +109,8 @@ class DocumentParser:
 
 class LLMService:
     def __init__(self):
-        self.ollama_url = os.environ.get('OLLAMA_URL', 'http://localhost:11434')
-        self.model = os.environ.get('OLLAMA_MODEL', 'llama3')
+        self.api_key = os.environ.get('GROQ_API_KEY', '')
+        self.model = os.environ.get('GROQ_MODEL', 'llama-3-70b-8192')
         
     async def create_chat(self, project_id: str, system_message: str) -> Dict:
         """Create LLM chat session"""
@@ -121,20 +121,25 @@ class LLMService:
         }
     
     async def chat(self, session: Dict, message: str) -> str:
-        """Send message to Ollama"""
+        """Send message to Groq"""
         import requests
         response = requests.post(
-            f"{self.ollama_url}/api/chat",
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            },
             json={
                 "model": session.get("model", self.model),
                 "messages": [
                     {"role": "system", "content": session.get("system_message", "")},
                     {"role": "user", "content": message}
                 ],
-                "stream": False
+                "temperature": 0.7,
+                "max_tokens": 4000
             }
         )
-        return response.json().get("message", {}).get("content", "")
+        return response.json().get("choices", [{}])[0].get("message", {}).get("content", "")
     
     async def analyze_document(self, content: str, project_type: str) -> Dict[str, Any]:
         """Analyze document and detect errors"""
