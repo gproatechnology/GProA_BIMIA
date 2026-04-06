@@ -1,0 +1,40 @@
+# Git
+.git
+.gitignore
+
+# Node
+node_modules
+npm-debug.log
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+*.egg-info
+
+# IDEs
+.vscode
+.idea
+*.swp
+*.swo
+
+# Test & Docs
+tests/
+test_reports/
+test_result.md
+README.md
+design_guidelines.json
+backend_test.py
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Misc
+memory/
+*.log
+.DS_Store

@@ -1,7 +1,8 @@
 from fastapi import FastAPI, APIRouter, UploadFile, File, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
@@ -16,7 +17,11 @@ import asyncio
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 ROOT_DIR = Path(__file__).parent
+PARENT_DIR = ROOT_DIR.parent
 load_dotenv(ROOT_DIR / '.env')
+
+# Port configuration for Render
+PORT = int(os.environ.get("PORT", 8000))
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -489,3 +494,12 @@ app.add_middleware(
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
+
+# Serve frontend static files in production
+frontend_path = PARENT_DIR / "frontend" / "build"
+if frontend_path.exists():
+    app.mount("/", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "service": "GProA_BIMIA"}
