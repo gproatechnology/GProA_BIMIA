@@ -1,0 +1,100 @@
+{
+  "theme": "light",
+  "archetype": "4 (Swiss & High-Contrast)",
+  "vibe": "Technical, professional, precise, authoritative, corporate, sober.",
+  "typography": {
+    "fonts": {
+      "heading": "Chivo",
+      "body": "IBM Plex Sans",
+      "mono": "IBM Plex Mono",
+      "import_instructions": "Import Chivo, IBM Plex Sans, and IBM Plex Mono from Google Fonts."
+    },
+    "scale": {
+      "h1": "text-4xl tracking-tight font-bold",
+      "h2": "text-2xl tracking-tight font-semibold",
+      "h3": "text-xl font-medium",
+      "body": "text-base leading-relaxed",
+      "caption": "text-sm tracking-wide text-slate-500",
+      "mono_label": "text-xs font-mono uppercase tracking-[0.2em]"
+    }
+  },
+  "colors": {
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "border": "#E4E4E7",
+    "text": {
+      "primary": "#0F172A",
+      "secondary": "#475569",
+      "tertiary": "#94A3B8"
+    },
+    "primary": "#002FA7",
+    "primary_hover": "#002072",
+    "status": {
+      "error": "#DC2626",
+      "error_bg": "#FEF2F2",
+      "warning": "#D97706",
+      "warning_bg": "#FFFBEB",
+      "success": "#059669",
+      "success_bg": "#ECFDF5",
+      "info": "#0284C7",
+      "info_bg": "#F0F9FF"
+    }
+  },
+  "layout": {
+    "strategy": "Control Room Grid (Dense, Functional)",
+    "container": "w-full h-screen overflow-hidden bg-background text-slate-900 flex flex-col md:flex-row",
+    "grid_system": "flex-1 grid grid-cols-1 md:grid-cols-12 h-full w-full",
+    "panels": {
+      "main_workspace": "col-span-1 md:col-span-8 lg:col-span-8 h-full flex flex-col border-r border-border overflow-y-auto bg-white",
+      "copilot_sidebar": "col-span-1 md:col-span-4 lg:col-span-4 h-full flex flex-col bg-gray-50 shadow-inner"
+    },
+    "spacing": "Dense spacing inside widgets (p-4), generous padding in major containers (p-8)."
+  },
+  "surface_strategy": {
+    "cards": "Flat solid surfaces with crisp 1px borders (border-slate-200), no soft drop shadows. Emphasize functional separation.",
+    "buttons": "Square or very subtly rounded (rounded-sm). Primary buttons use solid primary color (#002FA7) with white text. Secondary use transparent bg with border-slate-300.",
+    "inputs": "Shadcn default but with 0px or 2px max radius, ensuring a high-tech/engineering software feel.",
+    "chat_bubbles": "User: solid slate-800 with white text. AI Copilot: solid white with 1px border-slate-200. Errors in chat: border-l-4 border-red-600 bg-red-50 p-4."
+  },
+  "motion_interactions": {
+    "hover_states": "Crisp transitions. Text color explicitly changes on hover. Backgrounds shift slightly (e.g. hover:bg-slate-100).",
+    "transitions": "Fast and snappy. 150ms ease-out. No bouncy spring animations. It is an engineering tool, not a toy.",
+    "loaders": "Linear progress bars or monospace ascii-style loading text (e.g. 'Analyzing node [#####.....]')."
+  },
+  "components": {
+    "upload_zone": "Large rectangular area, dashed border (border-2 border-dashed border-slate-300 hover:border-blue-600), filled with a very faint blueprint pattern. Center align icon and text.",
+    "chat_interface": "Sticky bottom input, scrollable message history. High contrast labels.",
+    "error_card": "A specific component for 'Detected Electrical Error'. Must include a red icon, exact normative reference (e.g. 'NEC 310.15' or 'REBT ITC-BT-19'), and a prominent 'Fix/Acknowledge' action.",
+    "summary_dashboard": "Bento grid of data points at the top of the workspace (Project Title, Total Pages, Errors Found, Risk Level)."
+  },
+  "icons": {
+    "library": "lucide-react",
+    "style": "Technical, sharp. Use weights 1.5px to 2px."
+  },
+  "media": {
+    "images": {
+      "blueprint_empty_state": {
+        "url": "https://images.unsplash.com/photo-1742415106160-594d07f6cc23?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzZ8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2FsJTIwYmx1ZXByaW50JTIwcGF0dGVybnxlbnwwfHx8fDE3NzU1MDI3OTV8MA&ixlib=rb-4.1.0&q=85",
+        "category": "background",
+        "description": "Subtle electrical blueprint to be used at 5-10% opacity inside the document upload dropzone to signal purpose."
+      },
+      "server_room_cover": {
+        "url": "https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "category": "hero",
+        "description": "High-tech server room image. Can be used as a split-screen cover image on the login/auth page, with a very heavy dark blue overlay (bg-blue-900/80)."
+      }
+    }
+  },
+  "accessibility": {
+    "contrast": "Strict APCA/WCAG AA compliance. Dark text on light backgrounds. Error text must be readable (Red-700 on Red-50).",
+    "test_ids": "Every button, input, and chat message must have a data-testid attribute (e.g. 'upload-project-btn', 'chat-input', 'error-alert-card')."
+  },
+  "instructions_to_main_agent": [
+    "Build the UI in React using standard HTML/Tailwind for layouts and heavily customized Shadcn for forms/inputs.",
+    "Create a strict split-screen layout for the main app view: the left side (col-span-8) is the 'Project Workspace' (Upload area initially, then shows Document Summary + detected errors), and the right side (col-span-4) is a persistent 'Copilot Chat'.",
+    "DO NOT use Inter font. Use Chivo for headings, IBM Plex Sans for body, and IBM Plex Mono for technical/error readouts.",
+    "In the Chat interface, style AI responses involving 'Electrical Errors' differently than normal text (use red borders or alert blocks).",
+    "Implement the Upload Zone with the provided blueprint background image (`blueprint_empty_state`) at a very low opacity (e.g., opacity-5 or opacity-10) to make it feel like a professional CAD/Electrical tool.",
+    "Make sure the MVP feels like 'senior engineer software', not a friendly chatbot. Avoid rounded bouncy UI; use sharp, precise boxes (rounded-sm or rounded-none)."
+  ]
+}
