@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 import PyPDF2
 import io
 import asyncio
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+import requests
 
 ROOT_DIR = Path(__file__).parent
 PARENT_DIR = ROOT_DIR.parent
@@ -109,16 +109,32 @@ class DocumentParser:
 
 class LLMService:
     def __init__(self):
-        self.api_key = EMERGENT_LLM_KEY
+        self.ollama_url = os.environ.get('OLLAMA_URL', 'http://localhost:11434')
+        self.model = os.environ.get('OLLAMA_MODEL', 'llama3')
         
-    async def create_chat(self, project_id: str, system_message: str) -> LlmChat:
-        """Create LLM chat instance"""
-        chat = LlmChat(
-            api_key=self.api_key,
-            session_id=f"project_{project_id}",
-            system_message=system_message
-        ).with_model("openai", "gpt-5.2")
-        return chat
+    async def create_chat(self, project_id: str, system_message: str) -> Dict:
+        """Create LLM chat session"""
+        return {
+            "session_id": f"project_{project_id}",
+            "system_message": system_message,
+            "model": self.model
+        }
+    
+    async def chat(self, session: Dict, message: str) -> str:
+        """Send message to Ollama"""
+        import requests
+        response = requests.post(
+            f"{self.ollama_url}/api/chat",
+            json={
+                "model": session.get("model", self.model),
+                "messages": [
+                    {"role": "system", "content": session.get("system_message", "")},
+                    {"role": "user", "content": message}
+                ],
+                "stream": False
+            }
+        )
+        return response.json().get("message", {}).get("content", "")
     
     async def analyze_document(self, content: str, project_type: str) -> Dict[str, Any]:
         """Analyze document and detect errors"""
@@ -169,14 +185,12 @@ Debes responder en formato JSON con la siguiente estructura:
   ]
 }"""
         
-        chat = await self.create_chat("analysis_temp", system_prompt)
+        session = await self.create_chat("analysis_temp", system_prompt)
         
-        user_message = UserMessage(
-            text=f"Analiza el siguiente documento de proyecto {project_type} y proporciona un análisis completo:\n\n{content[:4000]}"
-        )
+        user_message = f"Analiza el siguiente documento de proyecto {project_type} y proporciona un análisis completo. Responde en formato JSON:\n\n{content[:4000]}"
         
         try:
-            response = await chat.send_message(user_message)
+            response = await self.chat(session, user_message)
             # Try to parse as JSON
             import json
             try:
@@ -235,12 +249,10 @@ Contexto del proyecto:
 {context}
 """
         
-        chat = await self.create_chat(project_id, system_prompt.format(context=context[:3000]))
-        
-        user_message = UserMessage(text=user_query)
+        session = await self.create_chat(project_id, system_prompt.format(context=context[:3000]))
         
         try:
-            response = await chat.send_message(user_message)
+            response = await self.chat(session, user_query)
             return response
         except Exception as e:
             logger.error(f"Error in chat: {e}")
