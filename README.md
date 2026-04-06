@@ -286,21 +286,20 @@ REACT_APP_BACKEND_URL=http://localhost:8000
 
 ## 📈 Funcionalidades del Copiloto
 
-```mermaid
-mindmap
-  root((Copiloto IA))
-    Análisis Técnico
-      Detección de errores
-      Evaluación normativa
-      Recomendaciones
-    Chat Contextual
-      Historial conversacional
-      Contexto de documentos
-      RAG Pipeline
-    Cumplimiento
-      NOM-001-SEDE
-      Normas eléctricas
-      Seguridad
+```
+Copiloto IA
+├── Análisis Técnico
+│   ├── Detección de errores
+│   ├── Evaluación normativa
+│   └── Recomendaciones
+├── Chat Contextual
+│   ├── Historial conversacional
+│   ├── Contexto de documentos
+│   └── RAG Pipeline
+└── Cumplimiento
+    ├── NOM-001-SEDE
+    ├── Normas eléctricas
+    └── Seguridad
 ```
 
 ---
